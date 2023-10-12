@@ -9,7 +9,9 @@ export class OrdersService {
     @Inject('ORDER_MODEL')
     private orderModel: Model<Order>,
   ) {}
- 
+  async getOrderSuccess(){
+    return this.orderModel.find({status : 3}).select('_id').exec();
+  }
   async getStatisticOrderDay(){
     return await this.orderModel.aggregate([
       {
@@ -30,13 +32,15 @@ export class OrdersService {
           count: { $sum: 1 }
         }
       }, 
+      { $sort : { _id: -1 } },
       {
         $project: {
           _id: 0, 
           date: "$_id",
           count: 1 
         }
-      }
+      },
+      { $limit: 4 }
     ]).exec();
   }
   async getStatisticOrderStatus(){

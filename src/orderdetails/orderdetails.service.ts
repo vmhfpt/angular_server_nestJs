@@ -3,12 +3,35 @@ import { CreateOrderdetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderdetailDto } from './dto/update-orderdetail.dto';
 import { OrderDetail } from './entities/orderdetail.interface';
 import { Model } from 'mongoose';
+import mongoose from 'mongoose';
+
 @Injectable()
 export class OrderdetailsService {
   constructor(
     @Inject('ORDER_DETAIL_MODEL')
     private orderDetailModel: Model<OrderDetail>,
   ) {}
+  async getRevenue(id : string){
+    
+    const ObjectId = mongoose.Types.ObjectId;
+    return this.orderDetailModel
+    .aggregate([
+      { $match: { order_id : new ObjectId(id) } },
+      {
+        $group: {
+            _id: '$order_id', 
+            totalQuantity: { $sum: { $multiply: ['$price', '$quantity']} }  
+        }
+    },
+    {
+      $project: {
+        _id: 0, 
+        order_id: "$_id",
+        count: "$totalQuantity" 
+      }
+    }
+    ]).exec();
+  }
   async  getStatisticOrderByProduct(){
     var that = this.orderDetailModel;
   

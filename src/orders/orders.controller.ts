@@ -6,7 +6,10 @@ import { UpdateOrderDto } from './dto/update-order.dto';
 @Controller('orders')
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
-  
+  @Get('get-order-success')
+  getOrderSuccess(){
+    return this.ordersService.getOrderSuccess();
+  }
   @Get('get-satistic-by-day')
   getStatisticByDay(){
     return this.ordersService.getStatisticOrderDay();

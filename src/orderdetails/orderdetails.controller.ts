@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { OrderdetailsService } from './orderdetails.service';
 import { CreateOrderdetailDto } from './dto/create-orderdetail.dto';
 import { UpdateOrderdetailDto } from './dto/update-orderdetail.dto';
@@ -6,7 +6,10 @@ import { UpdateOrderdetailDto } from './dto/update-orderdetail.dto';
 @Controller('orderdetails')
 export class OrderdetailsController {
   constructor(private readonly orderdetailsService: OrderdetailsService) {}
-
+  @Get('get-revenue')
+  getRevenue(@Query('id') id : string){
+    return this.orderdetailsService.getRevenue(id);
+  }
   @Post()
   create(@Body() createOrderdetailDto: CreateOrderdetailDto) {
     return this.orderdetailsService.create(createOrderdetailDto);
