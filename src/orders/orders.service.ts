@@ -17,7 +17,7 @@ export class OrdersService {
       {
         $addFields: {
           convertedDate: {
-            $toDate: "$createdAt" // replace "dateString" with your date field name
+            $toDate: "$createdAt"
           }
         }
       },
@@ -28,6 +28,7 @@ export class OrdersService {
             month: { $month: "$convertedDate" },
             day: { $dayOfMonth: "$convertedDate" }
           },
+          
           
           count: { $sum: 1 }
         }
