@@ -78,7 +78,7 @@ export class OrdersService {
   }
 
   findAll(): Promise<Order[]> {
-    return this.orderModel.find().exec();
+    return this.orderModel.find().sort({createdAt : -1}).exec();
   }
 
   findOne(id: string): Promise<Order> {

@@ -11,6 +11,11 @@ import { OrdersModule } from './orders/orders.module';
 import { OrderdetailsModule } from './orderdetails/orderdetails.module';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { ProductsController } from './products/products.controller';
+import { OrdersController } from './orders/orders.controller';
+import { OrderdetailsController } from './orderdetails/orderdetails.controller';
+import { UsersController } from './users/users.controller';
+import { CategoriesController } from './categories/categories.controller';
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 @Module({
   //imports: [CatsModule],
@@ -38,14 +43,16 @@ export class AppModule implements NestModule {
       .exclude(
         { path: 'categories', method: RequestMethod.GET },
         { path: 'products', method: RequestMethod.GET },
+        { path: 'products/detail/:id', method: RequestMethod.GET },
         { path: 'orders', method: RequestMethod.POST },
         { path: 'orderdetails', method: RequestMethod.POST },
       )
-      .forRoutes( 
-        { path: 'categories', method: RequestMethod.ALL },
-        { path: 'products', method: RequestMethod.ALL },
-        { path: 'orders', method: RequestMethod.ALL },
-        { path: 'orderdetails', method: RequestMethod.ALL },
+      .forRoutes(
+        UsersController,
+        CategoriesController,
+        ProductsController,
+        OrdersController,
+        OrderdetailsController
       );
   }
 }

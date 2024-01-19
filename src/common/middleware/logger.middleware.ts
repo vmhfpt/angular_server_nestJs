@@ -1,4 +1,4 @@
-import { Injectable, NestMiddleware, UnauthorizedException} from '@nestjs/common';
+import { ForbiddenException, Injectable, NestMiddleware, UnauthorizedException} from '@nestjs/common';
 import { Request, Response, NextFunction } from 'express';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from 'src/auth/constants';
@@ -7,8 +7,10 @@ import * as jwt from 'jsonwebtoken';
 export class LoggerMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: NextFunction) {
     const token = this.extractTokenFromHeader(req);
+    
     if (!token) {
-        throw new UnauthorizedException();
+      
+      throw new ForbiddenException('Token is empty or invalid')
     }
     try {
        const decode =  jwt.verify(token, jwtConstants.secret );

@@ -15,7 +15,7 @@ export class CategoriesService {
   }
 
   async findAll(): Promise<Category[]> {
-    return this.categoryModel.find().exec();
+    return this.categoryModel.find().populate('parent_id').exec();
   }
 
   async findOne(id: string): Promise<Category>{

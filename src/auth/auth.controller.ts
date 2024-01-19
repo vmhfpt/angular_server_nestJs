@@ -19,7 +19,11 @@ export class AuthController {
       return this.authService.signIn(signInDto.email, signInDto.password);
     }
 
-
+    @Post('refresh-token')
+    getRefreshToken(@Body() req : {refresh_token : string}){
+      
+      return this.authService.getRefreshToken(req.refresh_token);
+    }
 
     @UseGuards(AuthGuard)
     @Get('profile')

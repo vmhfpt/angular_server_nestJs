@@ -14,11 +14,14 @@ export class UsersService {
     return createdUser.save();
   }
 
-  findAll() {
-    return `This action returns all users`;
+  findAll() : Promise<User[]> {
+    return this.userModel.find().exec();
   }
-
-  async findOne(email: string): Promise<User | undefined> {
+  async findOneById(id: string): Promise<User> {
+   
+    return( this.userModel.findOne({_id : id}).exec());
+  }
+  async findOne(email: string): Promise<User> {
    
     return( this.userModel.findOne({email : email}).exec());
   }
@@ -27,11 +30,13 @@ export class UsersService {
     return await this.userModel.findOneAndUpdate({ email : email }, dataUpdate).exec();
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    return await this.userModel.findOneAndUpdate({_id : id},updateUserDto).exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  remove(id: string) {
+    
+    return this.userModel.deleteOne({_id : id});
+  
   }
 }
