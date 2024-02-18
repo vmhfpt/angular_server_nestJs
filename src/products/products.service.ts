@@ -18,6 +18,18 @@ export class ProductsService {
     data.sort({_id : 1}).limit(4);
     return(data)
   }
+  async getHome(){
+    return await Promise.all([
+      this.productModel.find({category_id : '659e9119e9c7e2c2d75ba8e7'}).populate('category_id').select(['-content', '-description']).skip(0).limit(3).sort({_id : -1}).exec(),
+      this.productModel.find({category_id : '659e871a129790a1eb868514'}).populate('category_id').select(['-content', '-description']).skip(0).limit(3).sort({_id : -1}).exec(),
+      this.productModel.find({category_id : '659e86ff129790a1eb86850f'}).populate('category_id').select(['-content', '-description']).skip(0).limit(4).sort({_id : -1}).exec()
+    ])
+    .then(([dataFirst, dataSecond, dataThird]) => {
+       return {
+        dataFirst, dataSecond, dataThird 
+       }
+    })
+  }
   async findOneById(id : string){
     return this.productModel.findOne({_id : id}).populate('category_id').exec();
   }

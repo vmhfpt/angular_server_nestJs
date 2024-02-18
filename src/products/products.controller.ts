@@ -18,7 +18,10 @@ export class ProductsController {
      return this.productsService.findByFilter(query);
   }
 
-
+  @Get('home')
+  getHome() {
+     return this.productsService.getHome();
+  }
 
   @Post()
   create(@Body() createProductDto: CreateProductDto) {

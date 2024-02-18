@@ -10,7 +10,7 @@ export class OrdersService {
     private orderModel: Model<Order>,
   ) {}
   async getOrderSuccess(){
-    return this.orderModel.find({status : 3}).select('_id').exec();
+    return this.orderModel.find({status : 1}).select('_id').exec();
   }
   async getStatisticOrderDay(){
     return await this.orderModel.aggregate([
